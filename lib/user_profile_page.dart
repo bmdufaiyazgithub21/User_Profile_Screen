@@ -1,9 +1,7 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:user_profile_screen/user%20profile%20display%20page.dart';
-
 import 'main.dart';
 
 void main() {
@@ -108,16 +106,18 @@ class _UserProfilePageState extends State<UserProfilePage> {
                     },
                   );
                 },
-                child: CircleAvatar(
-                  radius: 50,
-                  backgroundColor: Colors.blue,
-                  backgroundImage: _image != null ? FileImage(_image!) : null,
-                  child: _image == null
-                      ? const Padding(
-                        padding: EdgeInsets.only(left: 55.0,top: 45),
-                        child: Icon(Icons.photo_camera_sharp, size: 40, color: Colors.black),
-                      )
-                      : null,
+                child: Center(
+                  child: CircleAvatar(
+                    radius: 50,
+                    backgroundColor: Colors.blue,
+                    backgroundImage: _image != null ? FileImage(_image!) : null,
+                    child: _image == null
+                        ? const Padding(
+                          padding: EdgeInsets.only(left: 55.0,top: 45),
+                          child: Icon(Icons.photo_camera_sharp, size: 40, color: Colors.black),
+                        )
+                        : null,
+                  ),
                 ),
               ),
               Column(
@@ -155,8 +155,8 @@ class _UserProfilePageState extends State<UserProfilePage> {
                       },
                       child:
                       const Padding(
-                        padding: EdgeInsets.only(left: 15.0,top: 10),
-                        child: Text("Edit Profile",style: TextStyle(fontSize: 17),),
+                        padding: EdgeInsets.only(left: 10.0,top: 10),
+                        child: Center(child: Text("Edit Profile",style: TextStyle(fontSize: 17),)),
                       ))
                 ],
               ),
