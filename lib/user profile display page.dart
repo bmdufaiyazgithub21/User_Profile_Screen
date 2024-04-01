@@ -1,17 +1,20 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:user_profile_screen/user_profile_page.dart';
 
 class UserDetailsPage extends StatelessWidget {
   final String name;
   final String email;
   final int? age;
+  final int? aadharno;
   final File? image;
 
   const UserDetailsPage({
     required this.name,
     required this.email,
     required this.age,
+    required this.aadharno,
     required this.image,
   });
 
@@ -24,7 +27,7 @@ class UserDetailsPage extends StatelessWidget {
       body: Padding(
         padding: EdgeInsets.all(16.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             if (image != null)
               CircleAvatar(
@@ -46,14 +49,15 @@ class UserDetailsPage extends StatelessWidget {
               'Age: ${age ?? 'Not specified'}',
               style: TextStyle(fontSize: 18),
             ),
+            SizedBox(height: 10),
+            Text(
+              'Aadhar No: ${aadharno ?? 'Not specified'}',
+              style: TextStyle(fontSize: 18),
+            ),
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                // Navigator.pushNamedAndRemoveUntil(
-                //   context,
-                //   '/',
-                //       (route) => false,
-                // );
+                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => UserProfilePage(),), (route) => false);
               },
               child: Text('Go to User Profile Screen'),
             ),
