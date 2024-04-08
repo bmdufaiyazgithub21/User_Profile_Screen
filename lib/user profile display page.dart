@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:user_profile_screen/user_profile_page.dart';
 
 class UserDetailsPage extends StatelessWidget {
-  final String name;
+  final String first;
+  final String last;
   final int? mob;
   final String email;
   final String gen;
@@ -16,7 +17,8 @@ class UserDetailsPage extends StatelessWidget {
   final File? image;
 
   const UserDetailsPage({
-    required this.name,
+    required this.first,
+    required this.last,
     required this.mob,
     required this.email,
     required this.gen,
@@ -47,7 +49,12 @@ class UserDetailsPage extends StatelessWidget {
               ),
             SizedBox(height: 20),
             Text(
-              'Name: $name',
+              'First Name: $first',
+              style: TextStyle(fontSize: 18),
+            ),
+            SizedBox(height: 20),
+            Text(
+              'Last Name: $last',
               style: TextStyle(fontSize: 18),
             ),
             SizedBox(height: 20),

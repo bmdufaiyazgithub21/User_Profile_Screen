@@ -14,7 +14,8 @@ class UserProfilePage extends StatefulWidget {
 }
 
 class _UserProfilePageState extends State<UserProfilePage> {
-  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _firstNameController = TextEditingController();
+  final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _mobController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _genController = TextEditingController();
@@ -31,7 +32,8 @@ class _UserProfilePageState extends State<UserProfilePage> {
 
   @override
   void dispose() {
-    _nameController.dispose();
+    _firstNameController.dispose();
+    _lastNameController.dispose();
     _mobController.dispose();
     _emailController.dispose();
     _genController.dispose();
@@ -142,7 +144,8 @@ class _UserProfilePageState extends State<UserProfilePage> {
 
   void _submitForm() {
     // Handle form submission logic here
-    String name = _nameController.text;
+    String first = _firstNameController.text;
+    String last = _lastNameController.text;
     int? mob = int.parse(_mobController.text);
     String email = _emailController.text;
     String gen = _genController.text;
@@ -159,7 +162,8 @@ class _UserProfilePageState extends State<UserProfilePage> {
       context,
       MaterialPageRoute(
         builder: (context) => UserDetailsPage(
-          name: name,
+          first: first,
+          last:last,
           mob: mob,
           email: email,
           gen: _selectedGender,
@@ -300,16 +304,32 @@ class _UserProfilePageState extends State<UserProfilePage> {
                 ],
               ),
               const SizedBox(height: 5),
+              const SizedBox(height: 5),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
-                  controller: _nameController,
+                  controller: _firstNameController,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(12))
                     ),
-                    labelText: 'Name',
-                    hintText: 'Enter your name',
+                    labelText: 'First Name',
+                    hintText: 'Enter your first name',
+                    suffixIcon: Icon(Icons.person),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 5),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  controller: _lastNameController,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(12))
+                    ),
+                    labelText: 'Last Name',
+                    hintText: 'Enter your last name',
                     suffixIcon: Icon(Icons.person),
                   ),
                 ),
