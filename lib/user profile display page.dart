@@ -4,16 +4,28 @@ import 'package:user_profile_screen/user_profile_page.dart';
 
 class UserDetailsPage extends StatelessWidget {
   final String name;
+  final int? mob;
   final String email;
-  final int? age;
-  final int? aadharno;
+  final String gen;
+  final String com;
+  final String des;
+  final String marital;
+  final String state;
+  final String city;
+  final String pin;
   final File? image;
 
   const UserDetailsPage({
     required this.name,
+    required this.mob,
     required this.email,
-    required this.age,
-    required this.aadharno,
+    required this.gen,
+    required this.com,
+    required this.des,
+    required this.marital,
+    required this.state,
+    required this.city,
+    required this.pin,
     required this.image,
   });
 
@@ -38,6 +50,11 @@ class UserDetailsPage extends StatelessWidget {
               'Name: $name',
               style: TextStyle(fontSize: 18),
             ),
+            SizedBox(height: 20),
+            Text(
+              'Mobile No: ${mob}',
+              style: TextStyle(fontSize: 18),
+            ),
             SizedBox(height: 10),
             Text(
               'Email: $email',
@@ -45,12 +62,37 @@ class UserDetailsPage extends StatelessWidget {
             ),
             SizedBox(height: 10),
             Text(
-              'Age: ${age ?? 'Not specified'}',
+              'Gender: $gen',
               style: TextStyle(fontSize: 18),
             ),
             SizedBox(height: 10),
             Text(
-              'Aadhar No: ${aadharno ?? 'Not specified'}',
+              'Company Nmae: $com',
+              style: TextStyle(fontSize: 18),
+            ),
+            SizedBox(height: 10),
+            Text(
+              'Designation: $des',
+              style: TextStyle(fontSize: 18),
+            ),
+            SizedBox(height: 10),
+            Text(
+              'State: $state',
+              style: TextStyle(fontSize: 18),
+            ),
+            SizedBox(height: 10),
+            Text(
+              'City: $city',
+              style: TextStyle(fontSize: 18),
+            ),
+            SizedBox(height: 10),
+            Text(
+              'Pincode: $pin',
+              style: TextStyle(fontSize: 18),
+            ),
+            SizedBox(height: 10),
+            Text(
+              'Marital Status: $marital',
               style: TextStyle(fontSize: 18),
             ),
             SizedBox(height: 20),

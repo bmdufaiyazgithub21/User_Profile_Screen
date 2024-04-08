@@ -15,18 +15,32 @@ class UserProfilePage extends StatefulWidget {
 
 class _UserProfilePageState extends State<UserProfilePage> {
   final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _mobController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _ageController = TextEditingController();
-  final TextEditingController _aadharnoController = TextEditingController();
+  final TextEditingController _genController = TextEditingController();
+  final TextEditingController _comController = TextEditingController();
+  final TextEditingController _desController = TextEditingController();
+  final TextEditingController _maritalController = TextEditingController();
+  final TextEditingController _stateController = TextEditingController();
+  final TextEditingController _cityController = TextEditingController();
+  final TextEditingController _pinController = TextEditingController();
 
   File? _image;
+  String _selectedGender = '';
+  String _selectedMaritalStatus = '';
 
   @override
   void dispose() {
     _nameController.dispose();
+    _mobController.dispose();
     _emailController.dispose();
-    _ageController.dispose();
-    _aadharnoController.dispose();
+    _genController.dispose();
+    _comController.dispose();
+    _desController.dispose();
+    _maritalController.dispose();
+    _stateController.dispose();
+    _cityController.dispose();
+    _pinController.dispose();
     super.dispose();
   }
 
@@ -40,12 +54,105 @@ class _UserProfilePageState extends State<UserProfilePage> {
     }
   }
 
+  void _selectGender() async {
+    final selectedGender = await showDialog<String>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Select Gender'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                title: const Text('Male'),
+                onTap: () {
+                  Navigator.pop(context, 'Male');
+                },
+              ),
+              ListTile(
+                title: const Text('Female'),
+                onTap: () {
+                  Navigator.pop(context, 'Female');
+                },
+              ),
+              ListTile(
+                title: const Text('Other'),
+                onTap: () {
+                  Navigator.pop(context, 'Other');
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+
+    if (selectedGender != null) {
+      setState(() {
+        _selectedGender = selectedGender;
+      });
+    }
+  }
+
+  void _selectMaritalStatus() async {
+    final selectedMaritalStatus = await showDialog<String>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Select Marital Status'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                title: const Text('Single'),
+                onTap: () {
+                  Navigator.pop(context, 'Single');
+                },
+              ),
+              ListTile(
+                title: const Text('Married'),
+                onTap: () {
+                  Navigator.pop(context, 'Married');
+                },
+              ),
+              ListTile(
+                title: const Text('Divorced'),
+                onTap: () {
+                  Navigator.pop(context, 'Divorced');
+                },
+              ),
+              ListTile(
+                title: const Text('Widowed'),
+                onTap: () {
+                  Navigator.pop(context, 'Widowed');
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+
+    if (selectedMaritalStatus != null) {
+      setState(() {
+        _selectedMaritalStatus = selectedMaritalStatus;
+      });
+    }
+  }
+
   void _submitForm() {
     // Handle form submission logic here
     String name = _nameController.text;
+    int? mob = int.parse(_mobController.text);
     String email = _emailController.text;
-    int? age = int.tryParse(_ageController.text);
-    int? aadharno = int.parse(_aadharnoController.text);
+    String gen = _genController.text;
+    String com = _comController.text;
+    String des = _desController.text;
+    String marital = _maritalController.text;
+    String state = _stateController.text;
+    String city = _cityController.text;
+    String pin = _pinController.text;
+
 
     // Navigate to the next screen and pass the data as arguments
     Navigator.push(
@@ -53,9 +160,15 @@ class _UserProfilePageState extends State<UserProfilePage> {
       MaterialPageRoute(
         builder: (context) => UserDetailsPage(
           name: name,
+          mob: mob,
           email: email,
-          age: age,
-          aadharno: aadharno,
+          gen: _selectedGender,
+          com: com,
+          des: des,
+          marital: _selectedMaritalStatus,
+          state: state,
+          city: city,
+          pin: pin,
           image: _image,
         ),
       ),
@@ -64,16 +177,16 @@ class _UserProfilePageState extends State<UserProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text('User Profile'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: SingleChildScrollView(
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: SafeArea(child: const Text('Profile',style: TextStyle(fontSize: 27,color: Colors.blue),)),
+        ),
+        body: SingleChildScrollView(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            //crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               InkWell(
                 onTap: () {
@@ -107,18 +220,44 @@ class _UserProfilePageState extends State<UserProfilePage> {
                   );
                 },
                 child: Center(
-                  child: CircleAvatar(
-                    radius: 50,
-                    backgroundColor: Colors.blue,
-                    backgroundImage: _image != null ? FileImage(_image!) : null,
-                    child: _image == null
-                        ? const Padding(
-                          padding: EdgeInsets.only(left: 55.0,top: 45),
-                          child: Icon(Icons.photo_camera_sharp, size: 40, color: Colors.black),
-                        )
-                        : null,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      CircleAvatar(
+                        radius: 50,
+                        backgroundColor: Colors.purple[100],
+                        backgroundImage: _image != null ? FileImage(_image!) : null,
+                        child: Stack(
+                          clipBehavior: Clip.none,
+                          children: [
+                            if (_image == null)
+                              Positioned(
+                                child: Icon(Icons.person, size: 25, color: Colors.black),
+                              ),
+                            // Add your second icon here
+                            Positioned(
+                              left: 25,
+                              top: 30,
+                              child: Container(
+                                decoration: ShapeDecoration(
+                                  shape: CircleBorder(),
+                                  color: Colors.indigo,
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Icon(Icons.photo_camera_sharp, size: 25, color: Colors.white),
+                                ),
+                              ),
+                            ),
+
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                 ),
+
               ),
               Column(
                 children: [
@@ -160,47 +299,211 @@ class _UserProfilePageState extends State<UserProfilePage> {
                       ))
                 ],
               ),
-              const SizedBox(height: 20),
-              TextField(
-                controller: _nameController,
-                decoration: const InputDecoration(
-                  labelText: 'Name',
-                  hintText: 'Enter your name',
+              const SizedBox(height: 5),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  controller: _nameController,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(12))
+                    ),
+                    labelText: 'Name',
+                    hintText: 'Enter your name',
+                    suffixIcon: Icon(Icons.person),
+                  ),
                 ),
               ),
-              const SizedBox(height: 20),
-              TextField(
-                controller: _emailController,
-                decoration: const InputDecoration(
-                  labelText: 'Email',
-                  hintText: 'Enter your email',
+              SizedBox(height: 5,),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  keyboardType: TextInputType.number,
+                  controller: _mobController,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(12))
+                    ),
+                    labelText: 'Mobile No',
+                    hintText: 'Enter your number',
+                    suffixIcon: Icon(Icons.phone),
+                  ),
                 ),
               ),
-              const SizedBox(height: 20),
-              TextField(
-                controller: _ageController,
-                keyboardType: TextInputType.number,
-                decoration: const InputDecoration(
-                  labelText: 'Age',
-                  hintText: 'Enter your age',
+              const SizedBox(height: 5),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  controller: _emailController,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(12))
+                    ),
+                    labelText: 'Email',
+                    hintText: 'Enter your email',
+                    suffixIcon: Icon(Icons.email_outlined),
+                  ),
                 ),
               ),
-              const SizedBox(height: 20),
-              TextField(
-                controller: _aadharnoController,
-                keyboardType: TextInputType.number,
-                decoration: const InputDecoration(
-                  labelText: 'Aadhar No',
-                  hintText: 'Enter your aadharno',
+              const SizedBox(height: 5),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: GestureDetector(
+                  onTap: () {
+                    _selectGender();
+                  },
+                  child: InputDecorator(
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(12)),
+                      ),
+                      labelText: 'Select Gender',
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          _selectedGender.isNotEmpty ? _selectedGender : 'Select Gender',
+                          style: TextStyle(fontSize: 16),
+                        ),
+                        Icon(Icons.arrow_drop_down),
+                      ],
+                    ),
+                  ),
                 ),
               ),
-              const SizedBox(height: 20),
+
+              const SizedBox(height: 5),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  controller: _comController,
+                  //keyboardType: TextInputType.number,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(12))
+                    ),
+                    labelText: 'Company Name',
+                    hintText: 'Enter your Company Name',
+                    suffixIcon: Icon(Icons.work),
+
+                  ),
+                ),
+              ),
+              const SizedBox(height: 5),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  controller: _desController,
+                  //keyboardType: TextInputType.number,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(12))
+                    ),
+                    labelText: 'Designation',
+                    hintText: 'Enter your Designation',
+                    suffixIcon: Icon(Icons.design_services),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 5),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: GestureDetector(
+                  onTap: () {
+                    _selectMaritalStatus();
+                  },
+                  child: InputDecorator(
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(12)),
+                      ),
+                      labelText: 'Select Marital Status',
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          _selectedMaritalStatus.isNotEmpty ? _selectedMaritalStatus : 'Select Marital Status',
+                          style: TextStyle(fontSize: 16),
+                        ),
+                        Icon(Icons.arrow_drop_down),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 5),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  controller: _stateController,
+                  //keyboardType: TextInputType.number,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(12))
+                    ),
+                    labelText: 'State',
+                    hintText: 'Enter your State',
+                    suffixIcon: Icon(Icons.location_on_sharp),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 5),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  controller: _cityController,
+                  //keyboardType: TextInputType.number,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(12))
+                    ),
+                    labelText: 'City',
+                    hintText: 'Enter your City',
+                    suffixIcon: Icon(Icons.home),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 5),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  controller: _pinController,
+                  //keyboardType: TextInputType.number,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(12))
+                    ),
+                    labelText: 'Pincode',
+                    hintText: 'Enter your Pincode',
+                    suffixIcon: Icon(Icons.pin_drop),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10),
               Center(
-                child: ElevatedButton(
-                  onPressed: _submitForm,
-                  child: const Text('Submit'),
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      // Add your onPressed functionality here
+                      // For example, you can call a function to handle the update action
+                      _submitForm();
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.indigo,
+                      minimumSize: Size(380, 45),
+                    ),
+                    child: const Text(
+                      'Update',
+                      style: TextStyle(fontSize: 21, color: Colors.white),
+                    ),
+                  ),
                 ),
               ),
+
             ],
           ),
         ),
